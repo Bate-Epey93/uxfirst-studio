@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; script-src 'self'">
+<title>UX-First Studio — A Thinking Tool for Builders</title>
+<meta name="theme-color" content="#16161a">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="UX Studio">
+<link rel="stylesheet" href="styles.css">
+<script src="content.js" defer></script>
+<script src="storage.js" defer></script>
+<script src="engine.js" defer></script>
+<script src="pwa.js" defer></script>
+</head>
+<body>
+<div class="app">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <button class="tbtn icon-only menu-toggle" id="menuBtn" aria-label="Open menu">☰</button>
+    <div class="brand">
+      <div class="brand-mark"></div>
+      <div>
+        <div class="brand-name" id="brandName">UX<span>·</span>First Studio</div>
+        <div class="brand-sub" id="brandSub">Think before you build</div>
+      </div>
+    </div>
+    <div class="topbar-spacer"></div>
+    <div class="proj-switch">
+      <label>Project</label>
+      <select class="proj-select" id="projSelect"></select>
+    </div>
+    <button class="tbtn" id="lensBtn" aria-label="Open reasoning lens"><span class="tbtn-ico">◆</span><span class="tbtn-label">Lens</span></button>
+    <button class="tbtn accent" id="exportBtn" aria-label="Export brief"><span class="tbtn-ico">↧</span><span class="tbtn-label">Export Brief</span></button>
+  </div>
+
+  <!-- BODY -->
+  <div class="body">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="side-section">
+        <div class="side-label">New project</div>
+        <div class="new-proj-row">
+          <input type="text" id="newProjInput" placeholder="Name a project…" maxlength="48">
+          <button class="mini-btn" id="newProjBtn">+</button>
+        </div>
+        <button class="tbtn side-tbtn" id="dupeBtn">⧉ Duplicate current</button>
+        <button class="tbtn side-tbtn" id="compareBtn">⇆ Compare projects</button>
+        <button class="tbtn side-tbtn" id="historyBtn">⏱ History</button>
+        <button class="tbtn side-tbtn" id="installBtn" hidden>⤓ Install app</button>
+      </div>
+      <nav class="stations" id="stationNav"></nav>
+      <div class="side-foot">
+        <div class="progress-wrap">
+          <div class="progress-track"><div class="progress-fill" id="progFill"></div></div>
+          <div class="progress-text"><span>Project filled</span><span id="progPct">0%</span></div>
+        </div>
+        <button class="tbtn" id="backupBtn">⤓ Backup .json</button>
+        <button class="tbtn" id="restoreBtn">⤒ Restore .json</button>
+        <input type="file" id="restoreFile" accept="application/json" style="display:none">
+        <button class="tbtn" id="liveBackupBtn" hidden>⛁ Set up live backup</button>
+        <div class="pack-row">
+          <button class="tbtn" id="packImportBtn">⇪ Pack: import</button>
+          <button class="tbtn" id="packExportBtn">⇩ export</button>
+          <button class="tbtn" id="packRemoveBtn" hidden title="Remove content pack">✕</button>
+        </div>
+        <input type="file" id="packFile" accept="application/json" style="display:none">
+        <div class="side-note" id="liveBackupNote" hidden></div>
+        <div class="side-note" id="packNote" hidden></div>
+        <div class="side-note">Data lives on this device — nothing is sent anywhere, ever. To move a project to another device, use Backup → Restore.</div>
+        <div class="side-note fine-print" id="versionNote"></div>
+      </div>
+    </aside>
+
+    <!-- WORK AREA -->
+    <main class="work" id="work">
+      <div class="work-inner" id="workInner"></div>
+    </main>
+  </div>
+</div>
+
+<!-- SIDEBAR SCRIM (mobile drawer) -->
+<div class="scrim sidebar-scrim" id="sideScrim"></div>
+
+<!-- LENS DRAWER -->
+<div class="scrim" id="lensScrim"></div>
+<aside class="lens" id="lens">
+  <div class="lens-head">
+    <div class="lh-kick">The Foundation · always one tap away</div>
+    <h2>The Reasoning Lens</h2>
+    <p>Hold any decision — or any AI output — up against these before you trust it.</p>
+    <button class="lens-close" id="lensClose">×</button>
+  </div>
+  <div class="lens-body" id="lensBody"></div>
+</aside>
+
+<!-- EXPORT MODAL -->
+<div class="modal-scrim" id="modalScrim">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <h2 id="exTitle">Export</h2>
+        <div class="mh-sub" id="exSub"></div>
+      </div>
+      <button class="lens-close" id="modalClose" style="border-color:var(--line);color:var(--ink);">×</button>
+    </div>
+    <div class="modal-tabs">
+      <button id="tabBrief" class="on">UX-First Brief</button>
+      <button id="tabPrompts">AI Build Prompts</button>
+      <button id="tabAgent">Agent Context</button>
+    </div>
+    <div class="modal-body"><pre class="export-pre" id="exportPre"></pre></div>
+    <div class="modal-foot">
+      <button class="mbtn" id="printBtn">Print / PDF</button>
+      <button class="mbtn" id="copyBtn">Copy</button>
+      <button class="mbtn accent" id="downloadBtn">Download .md</button>
+    </div>
+  </div>
+</div>
+
+<!-- HISTORY MODAL (snapshots of the active project) -->
+<div class="modal-scrim" id="historyScrim">
+  <div class="modal modal-narrow">
+    <div class="modal-head">
+      <div>
+        <h2>History</h2>
+        <div class="mh-sub" id="histSub"></div>
+      </div>
+      <button class="lens-close" id="historyClose" style="border-color:var(--line);color:var(--ink);">×</button>
+    </div>
+    <div class="modal-body" id="historyBody"></div>
+    <div class="modal-foot">
+      <button class="mbtn" id="milestoneBtn">✦ Save milestone now</button>
+    </div>
+  </div>
+</div>
+
+<!-- COMPARE MODAL (design it twice — side by side) -->
+<div class="modal-scrim" id="compareScrim">
+  <div class="modal modal-wide">
+    <div class="modal-head">
+      <div>
+        <h2>Compare projects</h2>
+        <div class="mh-sub">Design it twice · differences highlighted</div>
+      </div>
+      <button class="lens-close" id="compareClose" style="border-color:var(--line);color:var(--ink);">×</button>
+    </div>
+    <div class="cmp-pickers">
+      <select class="proj-select cmp-select" id="cmpSelA"></select>
+      <span class="cmp-vs">vs</span>
+      <select class="proj-select cmp-select" id="cmpSelB"></select>
+    </div>
+    <div class="modal-body" id="compareBody"></div>
+  </div>
+</div>
+
+<div class="save-toast" id="saveToast">Saved</div>
+
+<!-- UPDATE TOAST (persistent; shown by pwa.js when a new version is waiting) -->
+<div class="update-toast" id="updateToast" hidden>
+  <span>Update ready</span>
+  <button id="updateReload">Reload</button>
+</div>
+
+<!-- iOS INSTALL HINT (shown by pwa.js on second non-installed visit) -->
+<div class="install-hint" id="iosHint" hidden>
+  <div class="ih-label">Install UX-First Studio</div>
+  <p>Add this to your home screen for offline use and safer data — installed apps are exempt from Safari's storage cleanup. Tap <b>Share ▹ Add to Home Screen</b>.</p>
+  <button class="ih-close" id="iosHintClose" aria-label="Dismiss">×</button>
+</div>
+
+</body>
+</html>

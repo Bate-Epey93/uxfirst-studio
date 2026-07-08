@@ -35,7 +35,7 @@ var CONFIG = {
   accentDeep: "#15309e",
   accentWash: "#e8ecfd",
   storageKey: "uxfirst_studio_v1",      // CHANGE PER FORK
-  appVersion: "1.2.2"                   // shown in sidebar fine print (§11)
+  appVersion: "1.2.3"                   // shown in sidebar fine print (§11)
 };
 
 /* ---------- CONTENT LAYER · STATIONS ---------- */

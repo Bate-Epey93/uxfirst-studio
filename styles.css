@@ -156,10 +156,11 @@ select.proj-select:focus{outline:1px solid var(--accent);}
 .station-link.foundation.active{border-color:var(--ink);}
 
 .side-foot{padding:14px 16px 20px;border-top:1px solid var(--line-soft);}
-.progress-wrap{margin-bottom:14px;}
+.progress-wrap{margin-bottom:14px;display:flex;align-items:center;gap:13px;}
+.progress-meta{flex:1;min-width:0;}
 .progress-track{height:5px;background:var(--line-soft);border-radius:3px;overflow:hidden;}
 .progress-fill{height:100%;background:var(--accent);width:0%;transition:width .4s;}
-.progress-text{font-family:var(--mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-top:7px;display:flex;justify-content:space-between;}
+.progress-text{font-family:var(--mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:7px;display:flex;justify-content:space-between;}
 .side-foot .tbtn{color:var(--ink);border-color:var(--line);width:100%;justify-content:center;margin-bottom:6px;}
 .side-foot .tbtn:hover{border-color:var(--accent);color:var(--accent);}
 
@@ -629,4 +630,282 @@ html,body{overscroll-behavior:none;}
   .station-link.active .sl-num,.station-link.active .sl-title,
   .face-toggle button.on,.flow-btn.next,.pl-key,.mini-btn,
   .save-toast,.update-toast{color:var(--chrome-text);}
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   v1.2 — LIQUID GLASS + ENSŌ BRAND LAYER
+   ───────────────────────────────────────────────────────────────
+   Color roles: BLUE (--accent) = interactive/UI. INK = text + faint
+   ensō watermarks. VERMILLION (--seal) = the studio's hanko stamp,
+   used as sparing brand punctuation. Green/amber stay semantic.
+   Glass lives where something sits behind it to refract (cards over
+   the work canvas, drawers/modals over scrims). Text contrast is
+   sacrosanct; all motion respects prefers-reduced-motion.
+   ═══════════════════════════════════════════════════════════════ */
+
+:root{
+  --seal:#D95B31;                 /* EnsoKit vermillion */
+  --seal-deep:#B9451F;
+  /* liquid-glass tokens (light) */
+  --glass-blur:saturate(1.6) blur(13px);
+  --glass-border:rgba(255,255,255,.55);
+  --glass-hi:inset 0 1px 0 rgba(255,255,255,.75), inset 0 -1px 1px rgba(22,22,26,.04);
+  --glass-drop:0 10px 30px -12px rgba(22,22,26,.22), 0 2px 6px -2px rgba(22,22,26,.08);
+  --glass-veil:rgba(251,250,246,.55);      /* frost fill over --panel */
+  --glass-sheen:linear-gradient(150deg, rgba(255,255,255,.55), rgba(255,255,255,.12) 42%, rgba(255,255,255,0) 70%);
+}
+
+/* ── Reusable glass finish (frost + specular edge + soft depth) ── */
+.glass, .concept-card, .apply-intro, .ethics-gate, .ai-check-apply,
+.face-toggle, .lens, .modal, .snap-row, .cmp-val{
+  -webkit-backdrop-filter:var(--glass-blur);
+  backdrop-filter:var(--glass-blur);
+}
+
+/* Cards keep their semantic tint but gain frost, a light-catching top
+   edge, and layered depth. A ::before paints the diagonal sheen. */
+.concept-card, .apply-intro, .ethics-gate, .ai-check-apply{
+  position:relative;overflow:hidden;
+  box-shadow:var(--glass-hi), var(--glass-drop);
+}
+.concept-card::before, .apply-intro::before, .ethics-gate::before, .ai-check-apply::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:var(--glass-sheen);opacity:.6;mix-blend-mode:screen;
+}
+.concept-card{background:linear-gradient(160deg, rgba(251,250,246,.72), rgba(251,250,246,.5));}
+.apply-intro{background:linear-gradient(160deg, rgba(232,236,253,.7), rgba(232,236,253,.42));}
+.ethics-gate{background:linear-gradient(160deg, rgba(247,238,221,.72), rgba(247,238,221,.46));}
+.ai-check-apply{background:linear-gradient(160deg, rgba(232,236,253,.6), rgba(232,236,253,.34));}
+
+/* AI overlay: dark liquid glass — lets the ensō/grid ghost through,
+   text stays high-contrast on the dark veil. */
+.ai-overlay{
+  background:linear-gradient(150deg, rgba(22,22,26,.9), rgba(38,38,46,.82));
+  -webkit-backdrop-filter:saturate(1.4) blur(10px);backdrop-filter:saturate(1.4) blur(10px);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.14), 0 14px 40px -16px rgba(0,0,0,.5);
+}
+
+/* Fields: barely-there frost so writing stays crisp and legible. */
+textarea.field-input{
+  background:linear-gradient(180deg, rgba(251,250,246,.86), rgba(251,250,246,.78));
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.6), 0 1px 2px rgba(22,22,26,.04);
+}
+textarea.field-input:focus{
+  background:linear-gradient(180deg, rgba(255,255,255,.94), rgba(251,250,246,.86));
+}
+
+/* Small frosted elements */
+.src-chip, .st-bignum{
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.6);
+}
+.src-chip{background:linear-gradient(160deg, rgba(251,250,246,.7), rgba(251,250,246,.44));}
+.face-toggle{
+  background:linear-gradient(160deg, rgba(236,234,227,.66), rgba(236,234,227,.4));
+  box-shadow:var(--glass-hi), 0 4px 16px -8px rgba(22,22,26,.2);
+}
+
+/* Floating chrome: drawers, modals, toasts as liquid glass */
+.lens{
+  background:linear-gradient(160deg, rgba(251,250,246,.82), rgba(247,244,237,.72));
+  box-shadow:-16px 0 50px rgba(0,0,0,.22), inset 1px 0 0 rgba(255,255,255,.5);
+}
+.modal{
+  background:linear-gradient(160deg, rgba(243,241,234,.86), rgba(247,244,237,.78));
+  box-shadow:0 30px 90px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.6);
+}
+.modal-head, .modal-tabs, .modal-foot, .cmp-pickers{background:rgba(251,250,246,.4);}
+.save-toast, .update-toast{
+  background:linear-gradient(150deg, rgba(22,22,26,.9), rgba(38,38,46,.82));
+  -webkit-backdrop-filter:saturate(1.4) blur(10px);backdrop-filter:saturate(1.4) blur(10px);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.14), 0 12px 34px -10px rgba(0,0,0,.45);
+}
+
+/* Topbar & sidebar: liquid dark/light with a light-catching underedge.
+   (Nothing scrolls beneath them, so this is a gradient sheen, not blur.) */
+.topbar{
+  background:linear-gradient(175deg, #1c1c22, #121216);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06), 0 1px 0 #000, 0 6px 20px -12px rgba(0,0,0,.6);
+}
+.sidebar{
+  background:linear-gradient(180deg, rgba(251,250,246,.9), rgba(247,244,237,.82));
+  box-shadow:inset -1px 0 0 rgba(255,255,255,.4);
+}
+
+/* Graceful fallback where backdrop-filter is unsupported → solid surfaces */
+@supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))){
+  .concept-card{background:var(--panel);}
+  .apply-intro,.ai-check-apply{background:var(--accent-wash);}
+  .ethics-gate{background:var(--amber-wash);}
+  textarea.field-input,.src-chip{background:var(--panel);}
+  .lens,.modal{background:var(--panel);}
+}
+
+/* ══════════════ ENSŌ BRAND LAYER ══════════════ */
+
+/* Brand mark → an ensō ring (the product mark), in accent blue */
+.brand-mark{border:none;overflow:visible;}
+.brand-mark::before{display:none;}
+.brand-enso{width:29px;height:29px;display:block;fill:var(--accent);
+  filter:drop-shadow(0 1px 2px rgba(31,68,224,.4));
+  animation:ensoDrawIn 1s cubic-bezier(.22,.9,.3,1) both;}
+
+/* Big faint ensō watermark behind each station header — freshly brushed
+   on every station change. Sits to the upper-right so it never fights the
+   left-aligned title text. */
+.st-head{position:relative;}
+.st-head > *{position:relative;z-index:1;}
+/* higher specificity than `.st-head > *` so the watermark truly floats
+   behind the header instead of taking layout space */
+.st-head .st-enso{position:absolute;top:-52px;right:-58px;width:270px;height:270px;
+  z-index:0;pointer-events:none;}
+.st-enso-ring{width:100%;height:100%;fill:var(--ink);opacity:.055;
+  transform-origin:60% 45%;animation:ensoBrush .85s cubic-bezier(.2,.85,.3,1) both;}
+
+/* Station title: a tapered sumi brush-swipe underline, drawn in accent */
+.st-title{position:relative;display:inline-block;padding-bottom:12px;}
+.st-title::after{
+  content:'';position:absolute;left:0;bottom:0;width:min(100%,340px);height:14px;
+  background:url("art/brush-underline.svg") no-repeat left center;background-size:100% 100%;
+  transform-origin:left center;animation:swipeIn .7s .15s cubic-bezier(.2,.85,.3,1) both;
+}
+
+/* Learn essay subheads: a small vermillion brush-tick, the studio's hand.
+   Masked (not filtered) so the tint is exactly --seal and stays true in dark. */
+.learn h3{position:relative;padding-left:2px;}
+.learn h3::before{
+  content:'';display:inline-block;width:19px;height:9px;margin-right:10px;vertical-align:middle;
+  background:var(--seal);
+  -webkit-mask:url("art/brush-underline-ink.svg") no-repeat center/100% 100%;
+          mask:url("art/brush-underline-ink.svg") no-repeat center/100% 100%;
+}
+
+/* Vermillion hanko seal — the studio stamp, in the sidebar foot */
+.side-seal{display:flex;align-items:center;gap:9px;margin:14px 0 6px;opacity:.9;}
+.side-seal .seal-img{flex-shrink:0;filter:drop-shadow(0 1px 2px rgba(185,69,31,.3));}
+.side-seal .seal-cap{font-family:var(--mono);font-size:8.5px;letter-spacing:2px;
+  text-transform:uppercase;color:var(--seal-deep);line-height:1.3;}
+
+/* Progress ensō — the brand metaphor wired onto the core mechanic: the ring
+   inks itself closed as the project fills, and is EARNED into vermillion at
+   100%. --p (0..1) is set by the engine; a conic mask reveals the inked arc. */
+.progress-enso{width:44px;height:44px;flex-shrink:0;position:relative;}
+.progress-enso svg{width:100%;height:100%;display:block;overflow:visible;}
+.progress-enso .pe-track{fill:var(--ink);opacity:.12;}
+.progress-enso .pe-fill{
+  fill:var(--accent);
+  -webkit-mask:conic-gradient(from -90deg, #000 calc(var(--p,0) * 1turn), transparent 0);
+          mask:conic-gradient(from -90deg, #000 calc(var(--p,0) * 1turn), transparent 0);
+  transition:opacity .4s ease;
+}
+.progress-enso.complete .pe-fill{
+  fill:var(--seal);
+  filter:drop-shadow(0 0 5px color-mix(in srgb, var(--seal) 55%, transparent));
+  animation:sealStamp .5s cubic-bezier(.2,1.3,.4,1) both;
+}
+.progress-enso.complete .pe-track{opacity:0;}
+
+/* Reading/writing surfaces don't need live blur — an opaque-ish frost with a
+   sheen and light-catching edge reads as glass at zero scroll cost on phones.
+   Real backdrop-filter stays on the few floating-chrome surfaces below. */
+@media (max-width:860px){
+  .concept-card,.apply-intro,.ethics-gate,.ai-check-apply,
+  .face-toggle,.snap-row,.cmp-val,textarea.field-input,.src-chip,.st-bignum{
+    -webkit-backdrop-filter:none;backdrop-filter:none;
+  }
+  .concept-card{background:var(--panel);}
+  .apply-intro{background:var(--accent-wash);}
+  .ethics-gate{background:var(--amber-wash);}
+  .ai-check-apply{background:var(--accent-wash);}
+  textarea.field-input,.src-chip{background:var(--panel);}
+}
+
+/* Accessibility: users who ask for reduced transparency get solid surfaces */
+@media (prefers-reduced-transparency: reduce){
+  .glass,.concept-card,.apply-intro,.ethics-gate,.ai-check-apply,.face-toggle,
+  .lens,.modal,.snap-row,.cmp-val,textarea.field-input,.src-chip,.st-bignum,
+  .save-toast,.update-toast,.ai-overlay{
+    -webkit-backdrop-filter:none!important;backdrop-filter:none!important;
+  }
+  .concept-card{background:var(--panel);}
+  .apply-intro,.ai-check-apply{background:var(--accent-wash);}
+  .ethics-gate{background:var(--amber-wash);}
+  textarea.field-input,.src-chip{background:var(--panel);}
+  .lens,.modal{background:var(--panel);}
+  .ai-overlay,.save-toast,.update-toast{background:var(--ink);}
+  .concept-card::before,.apply-intro::before,.ethics-gate::before,.ai-check-apply::before{display:none;}
+}
+
+/* Bleeding ensō art must clip at the canvas edge, never add a scrollbar */
+.work{overflow-x:hidden;}
+
+/* Hero ensō — a large faint mark in the work canvas that cards refract over */
+.work-enso{position:absolute;right:-90px;bottom:-120px;width:min(56vh,520px);height:min(56vh,520px);
+  pointer-events:none;z-index:0;}
+.hero-enso{width:100%;height:100%;fill:var(--ink);opacity:.035;
+  animation:heroBreathe 16s ease-in-out infinite alternate;}
+.work-inner{position:relative;z-index:1;}
+
+/* Completed-station dot → a filled seal-green pip already; add a faint ring pulse
+   handled via existing classes; here we just tint the "full" dot toward the seal. */
+
+/* ══════════════ MOTION ══════════════ */
+@keyframes ensoDrawIn{
+  from{opacity:0;transform:rotate(-32deg) scale(.7);}
+  to{opacity:1;transform:rotate(0) scale(1);}
+}
+@keyframes ensoBrush{
+  from{opacity:0;transform:rotate(-14deg) scale(.88);}
+  to{opacity:.055;transform:rotate(0) scale(1);}
+}
+@keyframes swipeIn{
+  from{opacity:0;transform:scaleX(0);}
+  to{opacity:1;transform:scaleX(1);}
+}
+@keyframes heroBreathe{
+  from{transform:scale(1) rotate(0);}
+  to{transform:scale(1.04) rotate(2.5deg);}
+}
+@keyframes sealStamp{
+  0%{transform:scale(.6) rotate(-12deg);opacity:0;}
+  60%{transform:scale(1.12) rotate(3deg);opacity:1;}
+  100%{transform:scale(1) rotate(0);opacity:1;}
+}
+
+@media (prefers-reduced-motion: reduce){
+  .brand-enso,.st-enso-ring,.st-title::after,.hero-enso,
+  .progress-enso.complete .pe-fill{animation:none;}
+  .st-enso-ring{opacity:.055;}
+  .st-title::after{opacity:1;transform:none;}
+}
+
+/* ══════════════ DARK MODE — glass + ensō ══════════════ */
+@media (prefers-color-scheme: dark){
+  :root{
+    --glass-border:rgba(255,255,255,.1);
+    --glass-hi:inset 0 1px 0 rgba(255,255,255,.1), inset 0 -1px 1px rgba(0,0,0,.3);
+    --glass-drop:0 12px 34px -14px rgba(0,0,0,.7), 0 2px 8px -3px rgba(0,0,0,.5);
+    --glass-sheen:linear-gradient(150deg, rgba(255,255,255,.14), rgba(255,255,255,.03) 45%, rgba(255,255,255,0) 72%);
+    --seal:#e06a3d;--seal-deep:#e8875f;
+  }
+  .concept-card{background:linear-gradient(160deg, rgba(30,30,36,.72), rgba(30,30,36,.5));}
+  .apply-intro{background:linear-gradient(160deg, rgba(29,37,69,.66), rgba(29,37,69,.4));}
+  .ethics-gate{background:linear-gradient(160deg, rgba(43,34,17,.7), rgba(43,34,17,.44));}
+  .ai-check-apply{background:linear-gradient(160deg, rgba(29,37,69,.56), rgba(29,37,69,.3));}
+  .ai-overlay{background:linear-gradient(150deg, rgba(16,16,20,.9), rgba(27,27,35,.82));}
+  textarea.field-input{background:linear-gradient(180deg, rgba(30,30,36,.8), rgba(30,30,36,.72));}
+  textarea.field-input:focus{background:linear-gradient(180deg, rgba(34,34,42,.92), rgba(30,30,36,.84));}
+  .src-chip{background:linear-gradient(160deg, rgba(30,30,36,.6), rgba(30,30,36,.36));}
+  .face-toggle{background:linear-gradient(160deg, rgba(19,19,22,.6), rgba(19,19,22,.36));}
+  .lens{background:linear-gradient(160deg, rgba(23,23,27,.85), rgba(19,19,22,.76));}
+  .modal{background:linear-gradient(160deg, rgba(23,23,27,.9), rgba(19,19,22,.82));}
+  .modal-head,.modal-tabs,.modal-foot,.cmp-pickers{background:rgba(30,30,36,.4);}
+  .topbar{background:linear-gradient(175deg, #16161b, #0c0c0f);}
+  .sidebar{background:linear-gradient(180deg, rgba(30,30,36,.9), rgba(23,23,27,.82));}
+  .st-enso-ring,.hero-enso{fill:var(--accent);}
+  .st-enso-ring{opacity:.09;}
+  .hero-enso{opacity:.06;}
+  .brand-enso{filter:drop-shadow(0 1px 3px rgba(95,124,240,.5));}
+  @keyframes ensoBrush{from{opacity:0;transform:rotate(-14deg) scale(.88);}to{opacity:.09;transform:rotate(0) scale(1);}}
 }

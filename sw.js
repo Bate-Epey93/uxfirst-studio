@@ -1,9 +1,10 @@
-const CACHE_VERSION = "uxfs-v1.1.1";   // bump on EVERY deploy, including content edits
+const CACHE_VERSION = "uxfs-v1.2.0";   // bump on EVERY deploy, including content edits
 const SHELL = [
   "./",
   "./index.html",
   "./styles.css",
   "./content.js",
+  "./enso-art.js",
   "./storage.js",
   "./engine.js",
   "./pwa.js",
@@ -11,6 +12,9 @@ const SHELL = [
   "./fonts/BricolageGrotesque.woff2",
   "./fonts/HankenGrotesk.woff2",
   "./fonts/JetBrainsMono.woff2",
+  "./art/enso-seal.svg",
+  "./art/brush-underline.svg",
+  "./art/brush-underline-ink.svg",
   "./icons/icon-192.png",
   "./icons/icon-512.png",
   "./icons/icon-maskable-512.png",

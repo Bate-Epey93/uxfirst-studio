@@ -14,6 +14,7 @@
 <meta name="apple-mobile-web-app-title" content="UX Studio">
 <link rel="stylesheet" href="styles.css">
 <script src="content.js" defer></script>
+<script src="enso-art.js" defer></script>
 <script src="storage.js" defer></script>
 <script src="engine.js" defer></script>
 <script src="pwa.js" defer></script>
@@ -25,7 +26,7 @@
   <div class="topbar">
     <button class="tbtn icon-only menu-toggle" id="menuBtn" aria-label="Open menu">☰</button>
     <div class="brand">
-      <div class="brand-mark"></div>
+      <div class="brand-mark" id="brandMark"></div>
       <div>
         <div class="brand-name" id="brandName">UX<span>·</span>First Studio</div>
         <div class="brand-sub" id="brandSub">Think before you build</div>
@@ -58,8 +59,11 @@
       <nav class="stations" id="stationNav"></nav>
       <div class="side-foot">
         <div class="progress-wrap">
-          <div class="progress-track"><div class="progress-fill" id="progFill"></div></div>
-          <div class="progress-text"><span>Project filled</span><span id="progPct">0%</span></div>
+          <div class="progress-enso" id="progEnso" aria-hidden="true" style="--p:0"></div>
+          <div class="progress-meta">
+            <div class="progress-text"><span>Project filled</span><span id="progPct">0%</span></div>
+            <div class="progress-track"><div class="progress-fill" id="progFill"></div></div>
+          </div>
         </div>
         <button class="tbtn" id="backupBtn">⤓ Backup .json</button>
         <button class="tbtn" id="restoreBtn">⤒ Restore .json</button>
@@ -74,12 +78,14 @@
         <div class="side-note" id="liveBackupNote" hidden></div>
         <div class="side-note" id="packNote" hidden></div>
         <div class="side-note">Data lives on this device — nothing is sent anywhere, ever. To move a project to another device, use Backup → Restore.</div>
+        <div class="side-seal" id="sideSeal" aria-hidden="true"></div>
         <div class="side-note fine-print" id="versionNote"></div>
       </div>
     </aside>
 
     <!-- WORK AREA -->
     <main class="work" id="work">
+      <div class="work-enso" id="workEnso" aria-hidden="true"></div>
       <div class="work-inner" id="workInner"></div>
     </main>
   </div>

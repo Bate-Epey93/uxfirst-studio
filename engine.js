@@ -109,6 +109,44 @@ function applyConfig(){
   document.getElementById("versionNote").textContent =
     "v" + (CONFIG.appVersion || "1.0.0") + " · offline · zero network requests · no accounts, no analytics";
 }
+
+/* ---------- ENSŌ ART (the EnsoKit brand layer) ----------
+   Authentic sumi-e ensō geometry from build-enso-art.js, injected as inline
+   SVG so it inherits currentColor and can animate. Blue stays the interactive
+   accent; ink + vermillion are the ensō brand layer. */
+const ART = (typeof ENSO_ART !== "undefined") ? ENSO_ART : { rings:[], mark:"" };
+
+// One inline ensō ring (filled brush contour) on a 0 0 100 100 canvas.
+function ensoRingSVG(i, cls){
+  const d = ART.rings.length ? ART.rings[((i % ART.rings.length) + ART.rings.length) % ART.rings.length] : "";
+  return `<svg class="${cls||""}" viewBox="0 0 100 100" aria-hidden="true"><path d="${d}"/></svg>`;
+}
+// The compact brand ensō.
+function ensoMarkSVG(cls){
+  return `<svg class="${cls||""}" viewBox="0 0 100 100" aria-hidden="true"><path d="${ART.mark||""}"/></svg>`;
+}
+// The vermillion hanko seal (rendered from the static asset for its double frame).
+function sealMarkup(){
+  return `<img src="art/enso-seal.svg" alt="" width="30" height="30" class="seal-img" draggable="false">`;
+}
+
+function applyEnsoArt(){
+  const bm = document.getElementById("brandMark");
+  if(bm) bm.innerHTML = ensoMarkSVG("brand-enso");
+  const seal = document.getElementById("sideSeal");
+  if(seal) seal.innerHTML = sealMarkup() + `<span class="seal-cap">${esc(CONFIG.toolName.replace(/·/g,""))}</span>`;
+  const hero = document.getElementById("workEnso");
+  if(hero) hero.innerHTML = ensoMarkSVG("hero-enso");
+  // Progress ensō: a faint full ring (track) + an inked ring the conic mask
+  // reveals as the project fills; recolors to the vermillion seal at 100%.
+  const pe = document.getElementById("progEnso");
+  if(pe){
+    const d = ART.progress || ART.mark || "";
+    pe.innerHTML = `<svg viewBox="0 0 100 100" aria-hidden="true">` +
+      `<path class="pe-track" d="${d}"/><path class="pe-fill" d="${d}"/></svg>`;
+  }
+}
+
 function activeProject(){ return store.projects[store.activeId]; }
 function fieldVal(stationId, fieldId){
   const p = activeProject();
@@ -175,6 +213,12 @@ function renderProgress(){
   const pct = overallProgress();
   document.getElementById("progFill").style.width = pct+"%";
   document.getElementById("progPct").textContent = pct+"%";
+  // Ink the progress ensō closed; earn the vermillion seal at 100%.
+  const pe = document.getElementById("progEnso");
+  if(pe){
+    pe.style.setProperty("--p", (pct/100).toFixed(3));
+    pe.classList.toggle("complete", pct >= 100);
+  }
   // nudge a backup when real work has accumulated and none is recent
   const stale = pct >= 15 && (!store.lastBackup || Date.now() - store.lastBackup > 7*864e5);
   const bb = document.getElementById("backupBtn");
@@ -191,8 +235,10 @@ function renderWork(){
   const sources = st.sources.map(s=>`<span class="src-chip"><b>${s[0]}</b> · ${s[1]}</span>`).join("");
   const hasApply = st.fields && st.fields.length>0;
 
+  const stIdx = STATIONS.findIndex(s=>s.id===st.id);
   let html = `
     <div class="st-head">
+      <div class="st-enso" aria-hidden="true">${ensoRingSVG(stIdx, "st-enso-ring")}</div>
       <div class="st-eyebrow">
         <span class="st-bignum">${st.num}</span>
         <span class="st-kicker">${st.kicker}</span>
@@ -900,6 +946,7 @@ document.getElementById("packRemoveBtn").onclick = async ()=>{
   normalizeState();
   await flushSaves();
   applyConfig();
+  applyEnsoArt();
   if(canShareFiles()) document.getElementById("downloadBtn").textContent = "Share";
   await initLiveBackup();
   renderAll();

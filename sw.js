@@ -1,9 +1,10 @@
-const CACHE_VERSION = "uxfs-v1.2.0";   // bump on EVERY deploy, including content edits
+const CACHE_VERSION = "uxfs-v1.2.1";   // bump on EVERY deploy, including content edits
 const SHELL = [
   "./",
   "./index.html",
   "./styles.css",
   "./content.js",
+  "./theme.js",
   "./enso-art.js",
   "./storage.js",
   "./engine.js",

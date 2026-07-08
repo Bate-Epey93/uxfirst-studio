@@ -102,10 +102,10 @@ function applyConfig(){
   }
   accentStyle.textContent =
     `:root{--accent:${CONFIG.accent};--accent-deep:${CONFIG.accentDeep};--accent-wash:${CONFIG.accentWash};}` +
-    `@media (prefers-color-scheme: dark){:root{` +
+    `:root[data-theme="dark"]{` +
       `--accent:${CONFIG.accent};` +
       `--accent-deep:color-mix(in srgb, ${CONFIG.accent} 55%, #ffffff);` +
-      `--accent-wash:color-mix(in srgb, ${CONFIG.accent} 16%, #16161c);}}`;
+      `--accent-wash:color-mix(in srgb, ${CONFIG.accent} 16%, #16161c);}`;
   document.getElementById("versionNote").textContent =
     "v" + (CONFIG.appVersion || "1.0.0") + " · offline · zero network requests · no accounts, no analytics";
 }

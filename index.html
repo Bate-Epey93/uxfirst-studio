@@ -12,6 +12,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="UX Studio">
+<script src="theme.js"></script>
 <link rel="stylesheet" href="styles.css">
 <script src="content.js" defer></script>
 <script src="enso-art.js" defer></script>
@@ -78,6 +79,11 @@
         <div class="side-note" id="liveBackupNote" hidden></div>
         <div class="side-note" id="packNote" hidden></div>
         <div class="side-note">Data lives on this device — nothing is sent anywhere, ever. To move a project to another device, use Backup → Restore.</div>
+        <div class="theme-toggle" id="themeToggle" role="group" aria-label="Theme">
+          <button type="button" data-theme-set="light" title="Light" aria-label="Light theme">☀</button>
+          <button type="button" data-theme-set="system" title="Follow system" aria-label="System theme">◐</button>
+          <button type="button" data-theme-set="dark" title="Dark" aria-label="Dark theme">☾</button>
+        </div>
         <div class="side-seal" id="sideSeal" aria-hidden="true"></div>
         <div class="side-note fine-print" id="versionNote"></div>
       </div>

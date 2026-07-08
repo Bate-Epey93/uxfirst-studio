@@ -582,9 +582,7 @@ html,body{overscroll-behavior:none;}
 @page{margin:18mm;}
 
 /* ── Dark mode (follows the OS; installed apps get judged by it) ── */
-@media (prefers-color-scheme: dark){
-  :root{
-    --paper:#131316;
+:root[data-theme="dark"]{--paper:#131316;
     --canvas:#17171b;
     --panel:#1e1e24;
     --ink:#eceae3;
@@ -604,33 +602,29 @@ html,body{overscroll-behavior:none;}
     /* dark chrome stays dark: components that used --ink as a background */
     --chrome:#0d0d10;
     --chrome-soft:#26262e;
-    --chrome-text:#eceae3;
-  }
-  .topbar{background:var(--chrome);color:var(--chrome-text);border-bottom-color:#000;}
-  .station-link.active{background:var(--chrome-soft);}
-  .pl-key{background:var(--chrome-soft);}
-  .mini-btn{background:var(--chrome-soft);}
-  .mini-btn:hover{background:var(--accent);}
-  .face-toggle button.on{background:var(--chrome-soft);}
-  .flow-btn.next{background:var(--chrome-soft);border-color:var(--chrome-soft);}
-  .save-toast,.update-toast{background:var(--chrome-soft);}
-  .ai-overlay{background:linear-gradient(135deg,#101014,#1b1b23);color:var(--chrome-text);}
-  .lens-head{background:var(--chrome);color:var(--chrome-text);}
-  .new-proj-row input{background:var(--panel);}
-  select.proj-select{background:var(--chrome-soft);border-color:#3a3a42;color:var(--chrome-text);}
-  .apply-intro{border-color:#2c3868;}
-  .apply-intro p{color:var(--accent-deep);}
-  .ethics-gate{border-color:#4a3a1a;}
-  .ethics-gate p{color:#c8a86a;}
-  .ai-check-apply p{color:var(--accent-deep);}
-  .ai-overlay p{color:#a3a099;}
-  .lens-head p{color:#8a877d;}
-  .brand-mark::before{border-color:rgba(255,255,255,.28);}
-  ::selection{background:var(--accent);color:#0d0d10;}
-  .station-link.active .sl-num,.station-link.active .sl-title,
-  .face-toggle button.on,.flow-btn.next,.pl-key,.mini-btn,
-  .save-toast,.update-toast{color:var(--chrome-text);}
-}
+    --chrome-text:#eceae3;}
+:root[data-theme="dark"] .topbar{background:var(--chrome);color:var(--chrome-text);border-bottom-color:#000;}
+:root[data-theme="dark"] .station-link.active{background:var(--chrome-soft);}
+:root[data-theme="dark"] .pl-key{background:var(--chrome-soft);}
+:root[data-theme="dark"] .mini-btn{background:var(--chrome-soft);}
+:root[data-theme="dark"] .mini-btn:hover{background:var(--accent);}
+:root[data-theme="dark"] .face-toggle button.on{background:var(--chrome-soft);}
+:root[data-theme="dark"] .flow-btn.next{background:var(--chrome-soft);border-color:var(--chrome-soft);}
+:root[data-theme="dark"] .save-toast,:root[data-theme="dark"] .update-toast{background:var(--chrome-soft);}
+:root[data-theme="dark"] .ai-overlay{background:linear-gradient(135deg,#101014,#1b1b23);color:var(--chrome-text);}
+:root[data-theme="dark"] .lens-head{background:var(--chrome);color:var(--chrome-text);}
+:root[data-theme="dark"] .new-proj-row input{background:var(--panel);}
+:root[data-theme="dark"] select.proj-select{background:var(--chrome-soft);border-color:#3a3a42;color:var(--chrome-text);}
+:root[data-theme="dark"] .apply-intro{border-color:#2c3868;}
+:root[data-theme="dark"] .apply-intro p{color:var(--accent-deep);}
+:root[data-theme="dark"] .ethics-gate{border-color:#4a3a1a;}
+:root[data-theme="dark"] .ethics-gate p{color:#c8a86a;}
+:root[data-theme="dark"] .ai-check-apply p{color:var(--accent-deep);}
+:root[data-theme="dark"] .ai-overlay p{color:#a3a099;}
+:root[data-theme="dark"] .lens-head p{color:#8a877d;}
+:root[data-theme="dark"] .brand-mark::before{border-color:rgba(255,255,255,.28);}
+:root[data-theme="dark"] ::selection{background:var(--accent);color:#0d0d10;}
+:root[data-theme="dark"] .station-link.active .sl-num,:root[data-theme="dark"] .station-link.active .sl-title,:root[data-theme="dark"] .face-toggle button.on,:root[data-theme="dark"] .flow-btn.next,:root[data-theme="dark"] .pl-key,:root[data-theme="dark"] .mini-btn,:root[data-theme="dark"] .save-toast,:root[data-theme="dark"] .update-toast{color:var(--chrome-text);}
 
 /* ═══════════════════════════════════════════════════════════════
    v1.2 — LIQUID GLASS + ENSŌ BRAND LAYER
@@ -859,6 +853,10 @@ textarea.field-input:focus{
   from{opacity:0;transform:rotate(-14deg) scale(.88);}
   to{opacity:.055;transform:rotate(0) scale(1);}
 }
+@keyframes ensoBrushDark{
+  from{opacity:0;transform:rotate(-14deg) scale(.88);}
+  to{opacity:.09;transform:rotate(0) scale(1);}
+}
 @keyframes swipeIn{
   from{opacity:0;transform:scaleX(0);}
   to{opacity:1;transform:scaleX(1);}
@@ -881,31 +879,36 @@ textarea.field-input:focus{
 }
 
 /* ══════════════ DARK MODE — glass + ensō ══════════════ */
-@media (prefers-color-scheme: dark){
-  :root{
-    --glass-border:rgba(255,255,255,.1);
+:root[data-theme="dark"]{--glass-border:rgba(255,255,255,.1);
     --glass-hi:inset 0 1px 0 rgba(255,255,255,.1), inset 0 -1px 1px rgba(0,0,0,.3);
     --glass-drop:0 12px 34px -14px rgba(0,0,0,.7), 0 2px 8px -3px rgba(0,0,0,.5);
     --glass-sheen:linear-gradient(150deg, rgba(255,255,255,.14), rgba(255,255,255,.03) 45%, rgba(255,255,255,0) 72%);
-    --seal:#e06a3d;--seal-deep:#e8875f;
-  }
-  .concept-card{background:linear-gradient(160deg, rgba(30,30,36,.72), rgba(30,30,36,.5));}
-  .apply-intro{background:linear-gradient(160deg, rgba(29,37,69,.66), rgba(29,37,69,.4));}
-  .ethics-gate{background:linear-gradient(160deg, rgba(43,34,17,.7), rgba(43,34,17,.44));}
-  .ai-check-apply{background:linear-gradient(160deg, rgba(29,37,69,.56), rgba(29,37,69,.3));}
-  .ai-overlay{background:linear-gradient(150deg, rgba(16,16,20,.9), rgba(27,27,35,.82));}
-  textarea.field-input{background:linear-gradient(180deg, rgba(30,30,36,.8), rgba(30,30,36,.72));}
-  textarea.field-input:focus{background:linear-gradient(180deg, rgba(34,34,42,.92), rgba(30,30,36,.84));}
-  .src-chip{background:linear-gradient(160deg, rgba(30,30,36,.6), rgba(30,30,36,.36));}
-  .face-toggle{background:linear-gradient(160deg, rgba(19,19,22,.6), rgba(19,19,22,.36));}
-  .lens{background:linear-gradient(160deg, rgba(23,23,27,.85), rgba(19,19,22,.76));}
-  .modal{background:linear-gradient(160deg, rgba(23,23,27,.9), rgba(19,19,22,.82));}
-  .modal-head,.modal-tabs,.modal-foot,.cmp-pickers{background:rgba(30,30,36,.4);}
-  .topbar{background:linear-gradient(175deg, #16161b, #0c0c0f);}
-  .sidebar{background:linear-gradient(180deg, rgba(30,30,36,.9), rgba(23,23,27,.82));}
-  .st-enso-ring,.hero-enso{fill:var(--accent);}
-  .st-enso-ring{opacity:.09;}
-  .hero-enso{opacity:.06;}
-  .brand-enso{filter:drop-shadow(0 1px 3px rgba(95,124,240,.5));}
-  @keyframes ensoBrush{from{opacity:0;transform:rotate(-14deg) scale(.88);}to{opacity:.09;transform:rotate(0) scale(1);}}
-}
+    --seal:#e06a3d;--seal-deep:#e8875f;}
+:root[data-theme="dark"] .concept-card{background:linear-gradient(160deg, rgba(30,30,36,.72), rgba(30,30,36,.5));}
+:root[data-theme="dark"] .apply-intro{background:linear-gradient(160deg, rgba(29,37,69,.66), rgba(29,37,69,.4));}
+:root[data-theme="dark"] .ethics-gate{background:linear-gradient(160deg, rgba(43,34,17,.7), rgba(43,34,17,.44));}
+:root[data-theme="dark"] .ai-check-apply{background:linear-gradient(160deg, rgba(29,37,69,.56), rgba(29,37,69,.3));}
+:root[data-theme="dark"] .ai-overlay{background:linear-gradient(150deg, rgba(16,16,20,.9), rgba(27,27,35,.82));}
+:root[data-theme="dark"] textarea.field-input{background:linear-gradient(180deg, rgba(30,30,36,.8), rgba(30,30,36,.72));}
+:root[data-theme="dark"] textarea.field-input:focus{background:linear-gradient(180deg, rgba(34,34,42,.92), rgba(30,30,36,.84));}
+:root[data-theme="dark"] .src-chip{background:linear-gradient(160deg, rgba(30,30,36,.6), rgba(30,30,36,.36));}
+:root[data-theme="dark"] .face-toggle{background:linear-gradient(160deg, rgba(19,19,22,.6), rgba(19,19,22,.36));}
+:root[data-theme="dark"] .lens{background:linear-gradient(160deg, rgba(23,23,27,.85), rgba(19,19,22,.76));}
+:root[data-theme="dark"] .modal{background:linear-gradient(160deg, rgba(23,23,27,.9), rgba(19,19,22,.82));}
+:root[data-theme="dark"] .modal-head,:root[data-theme="dark"] .modal-tabs,:root[data-theme="dark"] .modal-foot,:root[data-theme="dark"] .cmp-pickers{background:rgba(30,30,36,.4);}
+:root[data-theme="dark"] .topbar{background:linear-gradient(175deg, #16161b, #0c0c0f);}
+:root[data-theme="dark"] .sidebar{background:linear-gradient(180deg, rgba(30,30,36,.9), rgba(23,23,27,.82));}
+:root[data-theme="dark"] .st-enso-ring,:root[data-theme="dark"] .hero-enso{fill:var(--accent);}
+:root[data-theme="dark"] .st-enso-ring{opacity:.09;animation-name:ensoBrushDark;}
+:root[data-theme="dark"] .hero-enso{opacity:.06;}
+:root[data-theme="dark"] .brand-enso{filter:drop-shadow(0 1px 3px rgba(95,124,240,.5));}
+
+/* ── Theme toggle (Light / System / Dark) — sidebar footer segmented control ── */
+.theme-toggle{display:flex;gap:3px;margin:14px 0 4px;padding:3px;
+  background:var(--paper);border:1px solid var(--line);border-radius:7px;}
+.theme-toggle button{flex:1;font-size:13px;line-height:1;padding:6px 0;cursor:pointer;
+  background:transparent;border:none;border-radius:5px;color:var(--muted);
+  transition:background .15s,color .15s;-webkit-user-select:none;user-select:none;}
+.theme-toggle button:hover{color:var(--ink);}
+.theme-toggle button.on{background:var(--ink);color:var(--paper);}
+:root[data-theme="dark"] .theme-toggle button.on{background:var(--chrome-soft);color:var(--chrome-text);}

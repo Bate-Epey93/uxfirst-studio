@@ -200,10 +200,18 @@ function renderNav(){
     const a = document.createElement("div");
     a.className = "station-link"+(st.foundation?" foundation":"")+(st.id===store.activeStation?" active":"");
     const dotState = stationFillState(st);
+    // A complete station earns a small vermillion ensō seal — its own circle
+    // closed, echoing the 100% progress ensō. Partial/empty keep the quiet dot.
+    let marker = "";
+    if(st.fields && st.fields.length){
+      marker = dotState === "full"
+        ? `<span class="sl-seal" title="Sealed — all fields complete">${ensoMarkSVG("sl-seal-ring")}</span>`
+        : `<span class="sl-dot ${dotState}"></span>`;
+    }
     a.innerHTML = `
       <span class="sl-num">${st.num}</span>
       <span class="sl-title">${st.title}</span>
-      ${st.fields && st.fields.length ? `<span class="sl-dot ${dotState}"></span>` : ""}
+      ${marker}
     `;
     a.onclick = ()=>{ store.activeStation = st.id; save(); renderAll(); closeSidebar(); document.getElementById("work").scrollTop=0; };
     nav.appendChild(a);
@@ -270,9 +278,10 @@ function renderWork(){
     html += `<div class="face">
       <div class="apply-intro"><p>Answer for <b>${esc(activeProject().name)}</b>. Everything saves as you type. When you've worked through the stations, hit <b>Export Brief</b> to compile your answers into a spec and ready-to-paste AI build prompts.</p></div>`;
     st.fields.forEach((f,i)=>{
-      const v = esc(fieldVal(st.id,f.id));
+      const raw = fieldVal(st.id,f.id);
+      const v = esc(raw);
       html += `
-        <div class="field">
+        <div class="field ${raw.trim()?"filled":""}">
           <div class="field-head">
             <span class="field-label">${f.label}</span>
             <span class="fh-right"><button class="think-btn" data-station="${st.id}" data-field="${f.id}" title="Copy a thinking prompt for this question — paste it into Claude to pressure-test your answer">✦ Think with AI</button><span class="field-num">${st.num}.${i+1}</span></span>
@@ -323,6 +332,8 @@ function renderWork(){
     ta.addEventListener("input", e=>{
       setFieldVal(e.target.dataset.station, e.target.dataset.field, e.target.value);
       autosize(e.target);
+      const fld = e.target.closest(".field");   // live "captured" state (ethics gate isn't a .field)
+      if(fld) fld.classList.toggle("filled", !!e.target.value.trim());
       queueUiRefresh();
     });
   });

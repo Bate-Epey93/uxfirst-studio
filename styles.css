@@ -912,3 +912,23 @@ textarea.field-input:focus{
 .theme-toggle button:hover{color:var(--ink);}
 .theme-toggle button.on{background:var(--ink);color:var(--paper);}
 :root[data-theme="dark"] .theme-toggle button.on{background:var(--chrome-soft);color:var(--chrome-text);}
+
+/* ── Earned-completion marks (v1.2.2) — vermillion only, always a shape, only
+   when finished. Nav: a complete station earns a small vermillion ensō seal.
+   Field: a filled field earns a brush-tick + a soft vermillion resting border
+   (blue focus wins the moment you edit — interaction stays blue). ── */
+.sl-seal{position:absolute;right:6px;top:50%;transform:translateY(-50%);
+  width:17px;height:17px;display:grid;place-items:center;
+  animation:sealStamp .45s cubic-bezier(.2,1.3,.4,1) both;}
+.sl-seal svg{width:100%;height:100%;fill:var(--seal);
+  filter:drop-shadow(0 0 3px color-mix(in srgb, var(--seal) 40%, transparent));}
+.station-link.active .sl-seal svg{fill:var(--seal-deep);}
+
+.field.filled .field-label::after{
+  content:'';display:inline-block;width:16px;height:8px;margin-left:9px;vertical-align:middle;
+  background:var(--seal);
+  -webkit-mask:url("art/brush-underline-ink.svg") no-repeat center/100% 100%;
+          mask:url("art/brush-underline-ink.svg") no-repeat center/100% 100%;
+}
+.field.filled textarea.field-input{border-color:color-mix(in srgb, var(--seal) 60%, var(--line));}
+.field.filled textarea.field-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-wash);}
